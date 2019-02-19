@@ -39,20 +39,12 @@ namespace ecs
 
         inline void add(component_t components) noexcept
         {
-            // if a key unlocks a component,
-            // it does not need it
-            if (unlocks(components))
-                return;
-
-            // otherwise
-            m_components += components;
+            m_components |= components;
         }
 
         inline void sub(component_t components) noexcept
         {
-            // a component must exist to be removed
-            if (unlocks(components))
-                m_components -= components;
+            m_components ^= (m_components & components);
         }
 
         inline component_t get() const noexcept
