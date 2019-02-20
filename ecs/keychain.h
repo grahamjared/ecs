@@ -62,7 +62,7 @@ namespace ecs
     };
 
     template <class system_list>
-    class keychains
+    class keychain
     {
     private:
         static_assert(std::is_enum_v<system_list>,          "template parameter <system_list> must be an enum");

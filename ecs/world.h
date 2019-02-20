@@ -42,7 +42,7 @@ namespace ecs
     class world
     {
     public:
-        using vectors_t = std::tuple<std::vector<keychains<system_list>>, std::vector<Ts>... >;
+        using vectors_t = std::tuple<std::vector<keychain<system_list>>, std::vector<Ts>... >;
         vectors_t m_components;
         world() = default;
 
@@ -103,7 +103,7 @@ namespace ecs
 
         inline auto & keychains()
         {
-            return get<ecs::keychains<system_list>>();
+            return get<ecs::keychain<system_list>>();
         }
 
         ////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ namespace ecs
         inline entity create()
         {
             for (entity entity = 0; entity < size(); ++entity)
-                if (get<ecs::keychains<system_list>>()[entity].empty())
+                if (get<ecs::keychain<system_list>>()[entity].empty())
                     return entity;
 
             push_all();
@@ -126,7 +126,7 @@ namespace ecs
         ////////////////////////////////////////////////////////////
         inline void destroy(entity entity) noexcept
         {
-            get<ecs::keychains<system_list>>()[entity].clear();
+            get<ecs::keychain<system_list>>()[entity].clear();
         }
 
         ////////////////////////////////////////////////////////////
@@ -146,7 +146,7 @@ namespace ecs
             if (!valid(entity))
                 return false;
             else
-                return !get<ecs::keychains<system_list>>()[entity].empty();
+                return !get<ecs::keychain<system_list>>()[entity].empty();
         }
 
         ////////////////////////////////////////////////////////////
@@ -156,7 +156,7 @@ namespace ecs
 
         inline size_t capacity() noexcept
         {
-            return get<ecs::keychains<system_list>>().capacity();
+            return get<ecs::keychain<system_list>>().capacity();
         }
 
         inline void clear() noexcept
@@ -185,7 +185,7 @@ namespace ecs
 
         inline size_t max_size() const noexcept
         {
-            return get<ecs::keychains<system_list>>().max_size();
+            return get<ecs::keychain<system_list>>().max_size();
         }
 
         inline void reserve(size_t new_cap)
@@ -214,7 +214,7 @@ namespace ecs
 
         inline size_t size() const noexcept
         {
-            return get<ecs::keychains<system_list>>().size();
+            return get<ecs::keychain<system_list>>().size();
         }
 
     private:

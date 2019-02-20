@@ -15,4 +15,4 @@ public:
 };
 
 using world = _world<system_list, position, velocity>;
-using keychains = ecs::keychains<system_list>;
+using keychain = ecs::keychain<system_list>;
