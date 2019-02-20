@@ -65,10 +65,22 @@ namespace ecs
     class keychain
     {
     private:
-        static_assert(std::is_enum_v<system_list>,          "template parameter <system_list> must be an enum");
+        static_assert(std::is_enum_v<system_list>, "template parameter <system_list> must be an enum");
         static_assert(help::has_member_size_v<system_list>, "template parameter <system_list> must contain a member 'size' as the last member in the enum");
 
     public:
+        inline void operator += (const keychain & rhs)
+        {
+            for (size_t i = 0; i < size(); ++i)
+                m_keys[i].add(rhs.m_keys[i].get());
+        }
+
+        inline void operator -= (const keychain & rhs)
+        {
+            for (size_t i = 0; i < size(); ++i)
+                m_keys[i].sub(rhs.m_keys[i].get());
+        }
+
         inline key & operator[](system_list system)
         {
             return m_keys[static_cast<size_t>(system)];
@@ -92,6 +104,11 @@ namespace ecs
         {
             for (auto & key : m_keys)
                 key.clear();
+        }
+
+        inline size_t size() const
+        {
+            return static_cast<size_t>(system_list::size);
         }
 
     private:
