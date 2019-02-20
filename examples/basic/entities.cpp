@@ -6,24 +6,24 @@ namespace spawn
     {
         void position(world & world, ecs::entity entity, const ::position & pos)
         {
-            world.keychains()[entity][system_list::physics].add(physics::POSITION);
-            world.get<::position>()[entity] = pos;
+            world.keychain(entity)[system_list::physics].add(physics::POSITION);
+            world.get<::position>(entity) = pos;
         }
 
         void velocity(world & world, ecs::entity entity, const ::velocity & vel)
         {
-            world.keychains()[entity][system_list::physics].add(physics::VELOCITY);
-            world.get<::velocity>()[entity] = vel;
+            world.keychain(entity)[system_list::physics].add(physics::VELOCITY);
+            world.get<::velocity>(entity) = vel;
         }
 
         void print_position(world & world, ecs::entity entity)
         {
-            world.keychains()[entity][system_list::rendering].add(rendering::PRINT_POSITION);
+            world.keychain(entity)[system_list::rendering].add(rendering::PRINT_POSITION);
         }
 
         void print_velocity(world & world, ecs::entity entity)
         {
-            world.keychains()[entity][system_list::rendering].add(rendering::PRINT_VELOCITY);
+            world.keychain(entity)[system_list::rendering].add(rendering::PRINT_VELOCITY);
         }
     }
 

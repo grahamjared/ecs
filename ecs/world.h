@@ -90,20 +90,35 @@ namespace ecs
         // index <I>
         ////////////////////////////////////////////////////////////
         template <class T>
-        inline auto & get()
+        inline auto & get_component()
         {
             return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components);
         }
 
         template <class T>
-        inline const auto & get() const
+        inline const auto & get_component() const
         {
             return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components);
         }
 
-        inline auto & keychains()
+        ////////////////////////////////////////////////////////////
+        // get an entity's component based on type
+        ////////////////////////////////////////////////////////////
+        template <class T>
+        inline auto & get(ecs::entity entity)
         {
-            return get<ecs::keychain<system_list>>();
+            return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components)[entity];
+        }
+
+        template <class T>
+        inline const auto & get(ecs::entity entity) const
+        {
+            return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components)[entity];
+        }
+
+        inline auto & keychain(ecs::entity entity)
+        {
+            return get<ecs::keychain<system_list>>(entity);
         }
 
         ////////////////////////////////////////////////////////////
@@ -113,7 +128,7 @@ namespace ecs
         inline entity create()
         {
             for (entity entity = 0; entity < size(); ++entity)
-                if (get<ecs::keychain<system_list>>()[entity].empty())
+                if (get<ecs::keychain<system_list>>(entity).empty())
                     return entity;
 
             push_all();
@@ -126,7 +141,7 @@ namespace ecs
         ////////////////////////////////////////////////////////////
         inline void destroy(entity entity) noexcept
         {
-            get<ecs::keychain<system_list>>()[entity].clear();
+            get<ecs::keychain<system_list>>(entity).clear();
         }
 
         ////////////////////////////////////////////////////////////
@@ -146,7 +161,7 @@ namespace ecs
             if (!valid(entity))
                 return false;
             else
-                return !get<ecs::keychain<system_list>>()[entity].empty();
+                return !get<ecs::keychain<system_list>>(entity).empty();
         }
 
         ////////////////////////////////////////////////////////////
@@ -156,7 +171,7 @@ namespace ecs
 
         inline size_t capacity() noexcept
         {
-            return get<ecs::keychain<system_list>>().capacity();
+            return get_component<ecs::keychain<system_list>>().capacity();
         }
 
         inline void clear() noexcept
@@ -185,7 +200,7 @@ namespace ecs
 
         inline size_t max_size() const noexcept
         {
-            return get<ecs::keychain<system_list>>().max_size();
+            return get_component<ecs::keychain<system_list>>().max_size();
         }
 
         inline void reserve(size_t new_cap)
@@ -214,7 +229,7 @@ namespace ecs
 
         inline size_t size() const noexcept
         {
-            return get<ecs::keychain<system_list>>().size();
+            return get_component<ecs::keychain<system_list>>().size();
         }
 
     private:
