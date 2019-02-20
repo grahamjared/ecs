@@ -3,8 +3,9 @@
 namespace ecs
 {
     template <class T, class empty>
-    struct make_component : public T
+    class make_component : public T
     {
+    public:
         using T::T;
     };
 }
