@@ -121,6 +121,11 @@ namespace ecs
             return get<ecs::keychain<system_list>>(entity);
         }
 
+        inline const auto & keychain(ecs::entity entity) const
+        {
+            return get<ecs::keychain<system_list>>(entity);
+        }
+
         ////////////////////////////////////////////////////////////
         // First tries to find a deleted entity (an entity with all keys empty) and repurpose that as a new entity
         // If that fails, it pushes back all components and returns the newly allocated entity
