@@ -7,5 +7,14 @@
 #include "physics/components/position.h"
 #include "physics/components/velocity.h"
 
-using world    = ecs::world<system_list, position, velocity>;
+#include "world_fd.h"
+
+template <class system_list, class ... Ts>
+class _world : public ecs::world<system_list, Ts...>
+{
+public:
+    int value = 0;
+};
+
+using world = _world<system_list, position, velocity>;
 using keychains = ecs::keychains<system_list>;
