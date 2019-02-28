@@ -237,6 +237,18 @@ namespace ecs
             return get_component<ecs::keychain<system_list>>().size();
         }
 
+
+        inline entity copy(ecs::entity entity)
+        {
+            auto copy = this->create();
+            for_each_in_tuple(m_components, [copy, entity] (auto & vector)
+            {
+                vector[copy] = vector[entity];
+            });
+
+            return copy;
+        }
+
     private:
         inline void push_all()
         {
