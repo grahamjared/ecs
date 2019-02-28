@@ -81,6 +81,15 @@ namespace ecs
                 m_keys[i].sub(rhs.m_keys[i].get());
         }
 
+        inline bool operator == (const keychain & rhs)
+        {
+            for (size_t i = 0; i < size(); ++i)
+                if (m_keys[i].get() != rhs.m_keys[i].get())
+                    return false;
+
+            return true;
+        }
+
         inline key & operator[](system_list system)
         {
             return m_keys[static_cast<size_t>(system)];
