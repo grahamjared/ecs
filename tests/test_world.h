@@ -5,6 +5,23 @@
 
 namespace test
 {
+	void world_iterate()
+	{
+		::world world;
+		world.create();
+
+		std::cout << "starting for ( : ) loop\n";
+
+		for (const auto & entity : world)
+		{
+			std::cout << "(" << entity.get<position>().x << ", " << entity.get<position>().y << ")\n";
+		}
+
+		std::cout << "end      for ( : ) loop\n";
+
+		std::cout << "PASSED: ecs::world can use iterators\n";
+	}
+
     void world_copy()
     {
         ::world w;
@@ -22,5 +39,6 @@ namespace test
     void world()
     {
         world_copy();
+		world_iterate();
     }
 }
