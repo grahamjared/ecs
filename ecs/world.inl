@@ -8,40 +8,40 @@ namespace ecs
 	template <class T>
 	inline auto & world<system_list, Ts...>::get_component()
 	{
-		return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components);
+		return std::get<std::vector<T>>(m_components);
 	}
 
 	template<class system_list, class ...Ts>
 	template<class T>
 	inline const auto & world<system_list, Ts...>::get_component() const
 	{
-		return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components);
+		return std::get<std::vector<T>>(m_components);
 	}
 
 	template<class system_list, class ...Ts>
 	template<class T>
 	inline auto & world<system_list, Ts...>::get(ecs::entity entity)
 	{
-		return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components)[entity];
+		return std::get<std::vector<T>>(m_components)[entity];
 	}
 
 	template<class system_list, class ...Ts>
 	template<class T>
 	inline const auto & world<system_list, Ts...>::get(ecs::entity entity) const
 	{
-		return MatchingField<0, T, vectors_t, vector_of_t<0, T>::value>::get(m_components)[entity];
+		return std::get<std::vector<T>>(m_components)[entity];
 	}
 
 	template<class system_list, class ...Ts>
 	inline auto & world<system_list, Ts...>::keychain(ecs::entity entity)
 	{
-		return get<ecs::keychain<system_list>>(entity);
+		return std::get<std::vector<ecs::keychain<system_list>>>(m_components)[entity];
 	}
 
 	template<class system_list, class ...Ts>
 	inline const auto & world<system_list, Ts...>::keychain(ecs::entity entity) const
 	{
-		return get<ecs::keychain<system_list>>(entity);
+		return std::get<std::vector<ecs::keychain<system_list>>>(m_components)[entity];
 	}
 
 	template<class system_list, class ...Ts>
