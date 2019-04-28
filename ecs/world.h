@@ -42,47 +42,9 @@ namespace ecs
     class world
     {
     public:
-        using vectors_t = std::tuple<std::vector<keychain<system_list>>, std::vector<Ts>... >;
+		using vectors_t = std::tuple<std::vector<ecs::keychain<system_list>>, std::vector<Ts>... >;
+
         vectors_t m_components;
-        world() = default;
-
-        template<int N, typename T>
-        struct vector_of_t : std::is_same<T,
-            typename std::tuple_element<N, vectors_t>::type::value_type>
-        { };
-
-        template <int N, class T, class Tuple,
-            bool Match = false>
-            struct MatchingField
-        {
-            static std::vector<T> & get(Tuple & tp)
-            {
-                // The "non-matching" version
-                return MatchingField<N + 1, T, Tuple,
-                    vector_of_t<N + 1, T>::value>::get(tp);
-            }
-
-            static const std::vector<T> & get(const Tuple & tp)
-            {
-                // The "non-matching" version
-                return MatchingField<N + 1, T, Tuple,
-                    vector_of_t<N + 1, T>::value>::get(tp);
-            }
-        };
-
-        template <int N, class T, class Tuple>
-        struct MatchingField<N, T, Tuple, true>
-        {
-            static std::vector<T> & get(Tuple & tp)
-            {
-                return std::get<N>(tp);
-            }
-
-            static const std::vector<T> & get(const Tuple & tp)
-            {
-                return std::get<N>(tp);
-            }
-        };
 
     public:
         ////////////////////////////////////////////////////////////
