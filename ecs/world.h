@@ -47,6 +47,65 @@ namespace ecs
 
         vectors_t m_components;
 
+	public:
+		struct iterator;
+		struct entity_view
+		{
+			friend class iterator;
+
+			inline entity_view(world<system_list, Ts...> & world, ecs::entity position)
+				: m_world(world)
+				, m_entity(position)
+			{}
+
+			template <class T>
+			inline auto & get()
+			{
+				return m_world.get<T>(m_entity);
+			}
+
+			template <class T>
+			inline const auto & get() const
+			{
+				return m_world.get<T>(m_entity);
+			}
+
+		private:
+			world<system_list, Ts...> & m_world;
+			ecs::entity m_entity = 0;
+		};
+
+		struct iterator
+		{
+			using value_type = entity_view;
+
+			inline iterator(world<system_list, Ts...> & world, ecs::entity entity)
+				: m_view(world, entity)
+			{}
+
+		public:
+			inline entity_view & operator*() { return m_view; }
+			inline bool          operator!=(const iterator & other) const
+			{
+				if (&m_view.m_world == &other.m_view.m_world)
+					return m_view.m_entity != other.m_view.m_entity;
+				else
+					return false;
+			}
+			inline iterator & operator++()
+			{
+				m_view.m_entity++;
+				return *this;
+			}
+
+		private:
+			entity_view m_view;
+		};
+
+    public:
+		inline iterator begin() { return iterator(*this, 0); }
+		inline iterator end()	{ return iterator(*this, size()); }
+
     public:
         ////////////////////////////////////////////////////////////
         // Retrieves a vector<Ts> & (a vector of components) at the
