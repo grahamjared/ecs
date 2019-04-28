@@ -42,7 +42,8 @@ namespace ecs
     class world
     {
     public:
-		using vectors_t = std::tuple<std::vector<ecs::keychain<system_list>>, std::vector<Ts>... >;
+		using keychain_t = ecs::keychain<system_list>;
+		using vectors_t = std::tuple<std::vector<keychain_t>, std::vector<Ts>... >;
 
         vectors_t m_components;
 

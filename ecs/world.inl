@@ -35,20 +35,20 @@ namespace ecs
 	template<class system_list, class ...Ts>
 	inline auto & world<system_list, Ts...>::keychain(ecs::entity entity)
 	{
-		return std::get<std::vector<ecs::keychain<system_list>>>(m_components)[entity];
+		return std::get<std::vector<keychain_t>>(m_components)[entity];
 	}
 
 	template<class system_list, class ...Ts>
 	inline const auto & world<system_list, Ts...>::keychain(ecs::entity entity) const
 	{
-		return std::get<std::vector<ecs::keychain<system_list>>>(m_components)[entity];
+		return std::get<std::vector<keychain_t>>(m_components)[entity];
 	}
 
 	template<class system_list, class ...Ts>
 	inline entity world<system_list, Ts...>::create()
 	{
 		for (entity entity = 0; entity < size(); ++entity)
-			if (get<ecs::keychain<system_list>>(entity).empty())
+			if (get<keychain_t>(entity).empty())
 				return entity;
 
 		push_all();
@@ -58,7 +58,7 @@ namespace ecs
 	template<class system_list, class ...Ts>
 	inline void world<system_list, Ts...>::destroy(entity entity) noexcept
 	{
-		get<ecs::keychain<system_list>>(entity).clear();
+		get<keychain_t>(entity).clear();
 	}
 
 	template<class system_list, class ...Ts>
@@ -73,13 +73,13 @@ namespace ecs
 		if (!valid(entity))
 			return false;
 		else
-			return !get<ecs::keychain<system_list>>(entity).empty();
+			return !get<keychain_t>(entity).empty();
 	}
 
 	template<class system_list, class ...Ts>
 	inline size_t world<system_list, Ts...>::capacity() noexcept
 	{
-		return get_component<ecs::keychain<system_list>>().capacity();
+		return get_component<keychain_t>().capacity();
 	}
 
 	template<class system_list, class ...Ts>
@@ -112,7 +112,7 @@ namespace ecs
 	template<class system_list, class ...Ts>
 	inline size_t world<system_list, Ts...>::max_size() const noexcept
 	{
-		return get_component<ecs::keychain<system_list>>().max_size();
+		return get_component<keychain_t>().max_size();
 	}
 
 	template<class system_list, class ...Ts>
@@ -145,7 +145,7 @@ namespace ecs
 	template<class system_list, class ...Ts>
 	inline size_t world<system_list, Ts...>::size() const noexcept
 	{
-		return get_component<ecs::keychain<system_list>>().size();
+		return get_component<keychain_t>().size();
 	}
 
 	template<class system_list, class ...Ts>
